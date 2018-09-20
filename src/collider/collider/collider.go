@@ -8,9 +8,9 @@ package collider
 
 import (
 	"crypto/tls"
-	"golang.org/x/net/websocket"
 	"encoding/json"
 	"errors"
+	"golang.org/x/net/websocket"
 	"html"
 	"io"
 	"io/ioutil"
@@ -48,11 +48,13 @@ func (c *Collider) Run(p int, useTls bool) {
 	var e error
 
 	pstr := ":" + strconv.Itoa(p)
+	log.Printf("use tls %v", useTls)
+	log.Printf("psjtr %v", pstr)
 	if useTls {
-		config := &tls.Config {
+		config := &tls.Config{
 			// Only allow ciphers that support forward secrecy for iOS9 compatibility:
 			// https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/
-			CipherSuites: []uint16 {
+			CipherSuites: []uint16{
 				tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
 				tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
@@ -63,7 +65,7 @@ func (c *Collider) Run(p int, useTls bool) {
 			},
 			PreferServerCipherSuites: true,
 		}
-		server := &http.Server{ Addr: pstr, Handler: nil, TLSConfig: config }
+		server := &http.Server{Addr: pstr, Handler: nil, TLSConfig: config}
 
 		e = server.ListenAndServeTLS("/cert/cert.pem", "/cert/key.pem")
 	} else {
@@ -102,6 +104,7 @@ func (c *Collider) httpHandler(w http.ResponseWriter, r *http.Request) {
 
 	p := strings.Split(r.URL.Path, "/")
 	if len(p) != 3 {
+		log.Printf("Invalid path: %v", html.EscapeString(r.URL.Path))
 		c.httpError("Invalid path: "+html.EscapeString(r.URL.Path), w)
 		return
 	}
@@ -111,15 +114,18 @@ func (c *Collider) httpHandler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
+			log.Printf("Failed to read request body %v", err.Error())
 			c.httpError("Failed to read request body: "+err.Error(), w)
 			return
 		}
 		m := string(body)
 		if m == "" {
+			log.Printf("Empty request body")
 			c.httpError("Empty request body", w)
 			return
 		}
 		if err := c.roomTable.send(rid, cid, m); err != nil {
+			log.Printf("Failed to send the message %v", err.Error())
 			c.httpError("Failed to send the message: "+err.Error(), w)
 			return
 		}
@@ -152,6 +158,7 @@ loop:
 	for {
 		err := ws.SetReadDeadline(time.Now().Add(time.Duration(wsReadTimeoutSec) * time.Second))
 		if err != nil {
+			log.Printf("ws.SetReadDeadline error %v", err.Error())
 			c.wsError("ws.SetReadDeadline error: "+err.Error(), ws)
 			break
 		}
@@ -159,6 +166,7 @@ loop:
 		err = websocket.JSON.Receive(ws, &msg)
 		if err != nil {
 			if err.Error() != "EOF" {
+				log.Printf("websocket.JSON.Receive error: %v", err.Error())
 				c.wsError("websocket.JSON.Receive error: "+err.Error(), ws)
 			}
 			break
@@ -167,10 +175,12 @@ loop:
 		switch msg.Cmd {
 		case "register":
 			if registered {
+				log.Printf("Duplicated register request")
 				c.wsError("Duplicated register request", ws)
 				break loop
 			}
 			if msg.RoomID == "" || msg.ClientID == "" {
+				log.Printf("Invalid register request: Missing 'clientid' or 'rootmid'")
 				c.wsError("Invalid register request: missing 'clientid' or 'roomid'", ws)
 				break loop
 			}
@@ -211,6 +221,7 @@ func (c *Collider) httpError(msg string, w http.ResponseWriter) {
 
 func (c *Collider) wsError(msg string, ws *websocket.Conn) {
 	err := errors.New(msg)
+	log.Printf("Collider error : %v", msg)
 	sendServerErr(ws, msg)
 	c.dash.onWsErr(err)
 }
