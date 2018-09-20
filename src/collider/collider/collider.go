@@ -49,7 +49,7 @@ func (c *Collider) Run(p int, useTls bool) {
 
 	pstr := ":" + strconv.Itoa(p)
 	log.Printf("use tls %v", useTls)
-	log.Printf("psjtr %v", pstr)
+	log.Printf("port %v", pstr)
 	if useTls {
 		config := &tls.Config{
 			// Only allow ciphers that support forward secrecy for iOS9 compatibility:

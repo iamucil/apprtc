@@ -49,6 +49,7 @@ SignalingChannel.prototype.open = function() {
       };
       this.websocket_.onclose = function(event) {
         // TODO(tkchin): reconnect to WSS.
+        console.log(event);
         trace('Channel closed with code:' + event.code +
             ' reason:' + event.reason);
         this.websocket_ = null;
