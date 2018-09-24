@@ -447,9 +447,9 @@ AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
 
 AppController.prototype.displaySharingInfo_ = function(roomId, roomLink) {
   console.log("sharing info " + roomLink)
-  this.roomLinkHref_.href = roomLink;
-  this.roomLinkHref_.text = roomLink;
-  this.roomLink_ = roomLink;
+  this.roomLinkHref_.href = roomLink.replace("http", "https");
+  this.roomLinkHref_.text = roomLink.replace("http", "https");
+  this.roomLink_ = roomLink.replace("http", "https");
   this.pushCallNavigation_(roomId, roomLink);
   this.activate_(this.sharingDiv_);
 };
