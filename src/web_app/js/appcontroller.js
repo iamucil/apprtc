@@ -445,6 +445,7 @@ AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
 };
 
 AppController.prototype.displaySharingInfo_ = function(roomId, roomLink) {
+  console.log("sharing info " + roomLink)
   this.roomLinkHref_.href = roomLink;
   this.roomLinkHref_.text = roomLink;
   this.roomLink_ = roomLink;
