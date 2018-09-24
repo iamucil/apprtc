@@ -302,7 +302,9 @@ def get_room_parameters(request, room_id, client_id, is_initiator):
   }
 
   if room_id is not None:
+    logging.info(request.host_url)
     room_link = request.host_url + '/r/' + room_id
+    logging.info(room_link)
     room_link = append_url_arguments(request, room_link)
     params['room_id'] = room_id
     params['room_link'] = room_link
