@@ -199,8 +199,8 @@ label {
 }
 
 button {
-  background-color: #4285F4;
-  border: none;
+  background-color: #28a745;
+  border-color: #28a745;
   border-radius: 2px;
   -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
   -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
@@ -248,7 +248,7 @@ input[type=text] {
 }
 
 input[type="text"]:focus {
-  border-bottom: solid 2px #4285F4;
+  border-bottom: solid 2px #28a745;
   outline: none;
 }
 
@@ -275,6 +275,12 @@ h1 {
   font-weight: 300;
   margin: 0 0 0.8em 0;
   padding: 0 0 0.2em 0;
+}
+
+h1.title {
+  font-weight: 600;
+  font-family: Quicksand!important;
+  color: #24ae3b;
 }
 
 div#room-selection {
@@ -408,5 +414,32 @@ svg:hover {
   fill: #dd2c00;
 }
 
+ul#recent-rooms-list {
+  list-style-type: none;
+  padding: 0 15px;
+}
+
+ul#recent-rooms-list>li{
+  border-bottom: 1px solid #ccc;
+}
+
+ul#recent-rooms-list>li:last-child {
+  border: none;
+}
+
+ul#recent-rooms-list>li>a{
+  padding: 12px 0 12px 8px;
+  color: #24ae3b;
+  display: block;
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+ul#recent-rooms-list>li>a:hover{
+  background: #f6f6f6;
+}
 /*////// icons CSS end /////////////////////////*/
 
