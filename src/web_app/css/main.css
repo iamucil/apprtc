@@ -6,7 +6,7 @@
  *  tree.
  */
 
-.hidden {
+ .hidden {
   display: none;
 }
 
@@ -199,26 +199,35 @@ label {
 }
 
 button {
-  background-color: #28a745;
-  border-color: #28a745;
-  border-radius: 2px;
-  -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
-  -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
-  box-shadow: 1px 1px 5px 0 rgba(0,0,0,.5);
   color: white;
   font-size: 0.8em;
   height: 2.75em;
   margin: 0 5px 20px 5px;
-  padding: 0.5em 0.7em 0.5em 0.7em;
   width: 8em;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #28a745;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 button:active {
-  background-color: #3367D6;
+  background-color: #28a745;
 }
 
 button:hover {
-  background-color: #3B78E7;
+  background-color: #078524;
+   border: 1px solid transparent;
+  text-decoration:none;
 }
 
 button:focus {
