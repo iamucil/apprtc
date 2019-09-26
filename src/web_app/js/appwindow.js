@@ -13,7 +13,7 @@
 'use strict';
 
 // Generate random room id and connect.
-var roomServer = 'https://appr.tc';
+var roomServer = 'https://room-service.helochat.id';
 var loadingParams = {
   errorMessages: [],
   warningMessages: [],

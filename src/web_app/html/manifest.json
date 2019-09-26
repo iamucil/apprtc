@@ -1,9 +1,9 @@
 {
-  "short_name": "AppRTC",
-  "name": "WebRTC reference app",
+  "short_name": "RoomServiceRTC",
+  "name": "Room Service for helochatapp using WebRTC reference app",
   "icons": [
     {
-      "src": "/images/webrtc-icon-192x192.png",
+      "src": "/images/room-service-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
