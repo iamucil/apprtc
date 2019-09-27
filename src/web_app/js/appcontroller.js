@@ -437,7 +437,7 @@ AppController.prototype.onKeyPress_ = function(event) {
 
 AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
   if (!isChromeApp()) {
-    // roomLink = roomLink.replace("http", "https");
+    roomLink = roomLink.replace("http", "https");
     console.log("Room ID : " + roomId);
     console.log("Room Link : " + roomLink)
     window.history.pushState({'roomId': roomId, 'roomLink': roomLink}, roomId,
@@ -447,9 +447,9 @@ AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
 
 AppController.prototype.displaySharingInfo_ = function(roomId, roomLink) {
   console.log("sharing info " + roomLink)
-  // this.roomLinkHref_.href = roomLink.replace("http", "https");
-  // this.roomLinkHref_.text = roomLink.replace("http", "https");
-  // this.roomLink_ = roomLink.replace("http", "https");
+  this.roomLinkHref_.href = roomLink.replace("http", "https");
+  this.roomLinkHref_.text = roomLink.replace("http", "https");
+  this.roomLink_ = roomLink.replace("http", "https");
   this.pushCallNavigation_(roomId, roomLink);
   this.activate_(this.sharingDiv_);
 };
