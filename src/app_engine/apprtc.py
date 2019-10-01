@@ -471,6 +471,7 @@ class LeavePage(webapp2.RequestHandler):
 
 class MessagePage(webapp2.RequestHandler):
   def write_response(self, result):
+    self.response.headers.add_header('Access-Control-Allow-Origin', '*')
     content = json.dumps({ 'result' : result })
     self.response.write(content)
 
@@ -522,6 +523,7 @@ class JoinPage(webapp2.RequestHandler):
     self.write_response('SUCCESS', params, messages)
 
   def post(self, room_id):
+    self.response.headers.add_header('Access-Control-Allow-Origin', '*')
     client_id = generate_random(8)
     is_loopback = self.request.get('debug') == 'loopback'
     result = add_client_to_room(self.request, room_id, client_id, is_loopback)
@@ -535,6 +537,10 @@ class JoinPage(webapp2.RequestHandler):
         room_id, client_id, result['messages'], result['is_initiator'])
     logging.info('User ' + client_id + ' joined room ' + room_id)
     logging.info('Room ' + room_id + ' has state ' + result['room_state'])
+  def options(self):      
+    self.response.headers.add_header('Access-Control-Allow-Origin', '*')
+    self.response.headers.add_header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    self.response.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
 
 class MainPage(webapp2.RequestHandler):
   def write_response(self, target_page, params={}):
