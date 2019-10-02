@@ -10,7 +10,6 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
-	"golang.org/x/net/websocket"
 	"html"
 	"io"
 	"io/ioutil"
@@ -19,6 +18,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"golang.org/x/net/websocket"
 )
 
 const registerTimeoutSec = 10
@@ -43,6 +44,10 @@ func NewCollider(rs string) *Collider {
 func (c *Collider) Run(p int, useTls bool) {
 	http.Handle("/ws", websocket.Handler(c.wsHandler))
 	http.HandleFunc("/status", c.httpStatusHandler)
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
+		log.Printf("Health check")
+		w.Write([]byte("OK"))
+	})
 	http.HandleFunc("/", c.httpHandler)
 
 	var e error
