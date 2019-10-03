@@ -24,7 +24,7 @@ function queryStringToDictionary(queryString) {
   var pairs = queryString.slice(1).split('&');
 
   var result = {};
-  pairs.forEach(function(pair) {
+  pairs.forEach(function (pair) {
     if (pair) {
       pair = pair.split('=');
       if (pair[0]) {
@@ -44,13 +44,13 @@ function sendAsyncUrlRequest(method, url, body) {
 // async. If async is false, the xhr will be executed sync and a
 // resolved promise is returned.
 function sendUrlRequest(method, url, async, body) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var xhr;
-    var reportResults = function() {
+    var reportResults = function () {
       if (xhr.status !== 200) {
         reject(
-            Error('Status=' + xhr.status + ', response=' +
-                  xhr.responseText));
+          Error('Status=' + xhr.status + ', response=' +
+            xhr.responseText));
         return;
       }
       resolve(xhr.responseText);
@@ -58,7 +58,7 @@ function sendUrlRequest(method, url, async, body) {
 
     xhr = new XMLHttpRequest();
     if (async) {
-      xhr.onreadystatechange = function() {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) {
           return;
         }
@@ -92,8 +92,8 @@ function sendUrlRequest(method, url, async, body) {
 //   ]
 // }
 function requestIceServers(iceServerRequestUrl, iceTransports) {
-  return new Promise(function(resolve, reject) {
-    sendAsyncUrlRequest('POST', iceServerRequestUrl).then(function(response) {
+  return new Promise(function (resolve, reject) {
+    sendAsyncUrlRequest('POST', iceServerRequestUrl).then(function (response) {
       var iceServerRequestResponse = parseJSON(response);
       if (!iceServerRequestResponse) {
         reject(Error('Error parsing response JSON: ' + response));
@@ -104,7 +104,7 @@ function requestIceServers(iceServerRequestUrl, iceTransports) {
       }
       trace('Retrieved ICE server information.');
       resolve(iceServerRequestResponse.iceServers);
-    }).catch(function(error) {
+    }).catch(function (error) {
       reject(Error('ICE server request error: ' + error.message));
       return;
     });
@@ -149,25 +149,25 @@ function filterIceServersUrls(config, protocol) {
 // Start shims for fullscreen
 function setUpFullScreen() {
   if (isChromeApp()) {
-    document.cancelFullScreen = function() {
+    document.cancelFullScreen = function () {
       chrome.app.window.current().restore();
     };
   } else {
     document.cancelFullScreen = document.webkitCancelFullScreen ||
-        document.mozCancelFullScreen || document.cancelFullScreen;
+      document.mozCancelFullScreen || document.cancelFullScreen;
   }
 
   if (isChromeApp()) {
-    document.body.requestFullScreen = function() {
+    document.body.requestFullScreen = function () {
       chrome.app.window.current().fullscreen();
     };
   } else {
     document.body.requestFullScreen = document.body.webkitRequestFullScreen ||
-        document.body.mozRequestFullScreen || document.body.requestFullScreen;
+      document.body.mozRequestFullScreen || document.body.requestFullScreen;
   }
 
   document.onfullscreenchange = document.onfullscreenchange ||
-        document.onwebkitfullscreenchange || document.onmozfullscreenchange;
+    document.onwebkitfullscreenchange || document.onmozfullscreenchange;
 }
 
 function isFullScreen() {
@@ -181,9 +181,9 @@ function isFullScreen() {
 
 function fullScreenElement() {
   return document.webkitFullScreenElement ||
-      document.webkitCurrentFullScreenElement ||
-      document.mozFullScreenElement ||
-      document.fullScreenElement;
+    document.webkitCurrentFullScreenElement ||
+    document.mozFullScreenElement ||
+    document.fullScreenElement;
 }
 
 // End shims for fullscreen
@@ -202,8 +202,8 @@ function randomString(strLength) {
 // Returns true if the code is running in a packaged Chrome App.
 function isChromeApp() {
   return (typeof chrome !== 'undefined' &&
-          typeof chrome.storage !== 'undefined' &&
-          typeof chrome.storage.local !== 'undefined');
+    typeof chrome.storage !== 'undefined' &&
+    typeof chrome.storage.local !== 'undefined');
 }
 
 // Calculcates FPS for the provided video elements and calls on a callback which
@@ -213,14 +213,14 @@ function calculateFps(videoElement, decodedFrames, startTime, remoteOrLocal,
   callback) {
   var fps = 0;
   if (videoElement &&
-      typeof videoElement.webkitDecodedFrameCount !== undefined) {
+    typeof videoElement.webkitDecodedFrameCount !== undefined) {
     if (videoElement.readyState >= videoElement.HAVE_CURRENT_DATA) {
       var currentTime = new Date().getTime();
       var deltaTime = (currentTime - startTime) / 1000;
       var startTimeToReturn = currentTime;
       fps = (videoElement.webkitDecodedFrameCount - decodedFrames) / deltaTime;
       callback(videoElement.webkitDecodedFrameCount, startTimeToReturn,
-          remoteOrLocal);
+        remoteOrLocal);
     }
   }
   return parseInt(fps);
@@ -237,4 +237,10 @@ function trace(text) {
   } else {
     console.log(text);
   }
+}
+
+function isLocalhost(str) {
+  var regex = /(localhost)/gm;
+
+  return regex.test(str)
 }
