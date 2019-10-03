@@ -440,6 +440,7 @@ AppController.prototype.pushCallNavigation_ = function (roomId, roomLink) {
     if (!isLocalhost(roomLink)) {
       roomLink = roomLink.replace("http", "https");
     }
+    console.log("Push class navigation roomID: " + roomId + " > roomLink: " + roomLink)
     window.history.pushState({ 'roomId': roomId, 'roomLink': roomLink }, roomId,
       roomLink);
   }
@@ -448,10 +449,11 @@ AppController.prototype.pushCallNavigation_ = function (roomId, roomLink) {
 AppController.prototype.displaySharingInfo_ = function (roomId, roomLink) {
   if (!isLocalhost(roomLink)) {
     roomLink = roomLink.replace("http", "https");
-    this.roomLinkHref_.href = roomLink.replace("http", "https");
-    this.roomLinkHref_.text = roomLink.replace("http", "https");
-    this.roomLink_ = roomLink.replace("http", "https");
   }
+  this.roomLinkHref_.href = roomLink;
+  this.roomLinkHref_.text = roomLink;
+  this.roomLink_ = roomLink;
+  console.log("Display sharing info >> roomLink: (" + roomId + ")" + roomLink + ". Waiting someone to join in this room.")
   this.pushCallNavigation_(roomId, roomLink);
   this.activate_(this.sharingDiv_);
 };
