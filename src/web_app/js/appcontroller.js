@@ -438,7 +438,7 @@ AppController.prototype.onKeyPress_ = function (event) {
 AppController.prototype.pushCallNavigation_ = function (roomId, roomLink) {
   if (!isChromeApp()) {
     if (!isLocalhost(roomLink)) {
-      roomLink = setHttps(roomLink)
+      roomLink = setHttps(roomLink);
     }
     console.log("Push class navigation roomID: " + roomId + " > roomLink: " + roomLink)
     window.history.pushState({ 'roomId': roomId, 'roomLink': roomLink }, roomId,
@@ -448,7 +448,7 @@ AppController.prototype.pushCallNavigation_ = function (roomId, roomLink) {
 
 AppController.prototype.displaySharingInfo_ = function (roomId, roomLink) {
   if (!isLocalhost(roomLink)) {
-    roomLink = setHttps(roomLink)
+    roomLink = setHttps(roomLink);
   }
   this.roomLinkHref_.href = roomLink;
   this.roomLinkHref_.text = roomLink;
